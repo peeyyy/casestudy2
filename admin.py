@@ -28,13 +28,13 @@ class Admin(User):
         SystemLogger.log_info(f"Admin {self.username}'s password reset.")
         self.save_admin_data(self)
 
-    def add_product(self, product_id, name, price, stock_quantity, category):
+    def add_product(self, product_id, name, price, stock_quantity, category, description, brand, color, size, weight, sku, discount, rating, review):
         # Create product and write to inventory.txt
-        product = Product(product_id, name, price, stock_quantity, category)
+        product = Product(self, product_id, name, price, stock_quantity, category, description, brand, color, size, weight, sku, discount, rating, review)
         
         # Save product details to the inventory file with correct field names
         with open("inventory.txt", "a") as file:
-            file.write(f"Product ID: {product_id}\nName: {name}\nPrice: {price}\nStock Quantity: {stock_quantity}\nCategory: {category}\n\n")
+            file.write(f"Product ID: {product_id}\nName: {name}\nPrice: {price}\nStock Quantity: {stock_quantity}\nCategory: {category}\nDescription: {description}\nBrand: {brand}\nColor: {color}\nSize: {size}\nWeight: {weight}\nSKU: {sku}\nDiscount: {discount}\nRating: {rating}\nAvailable: {review}\n\n")
         
         print("Product added successfully to inventory.")
         self.sort_inventory_by_category()
@@ -58,7 +58,16 @@ class Admin(User):
                     "Name": lines[1].split(": ")[1],
                     "Price": float(lines[2].split(": ")[1]),
                     "Stock Quantity": int(lines[3].split(": ")[1]),
-                    "Category": lines[4].split(": ")[1]
+                    "Category": lines[4].split(": ")[1],
+                    "Description" : lines[5].split(": ")[1].strip(),
+                    "Brand": lines[6].split(": ")[1].strip(),
+                    "Color": lines[7].split(": ")[1].strip(),
+                    "Size" : lines[8].split(": ")[1].strip(),
+                    "Weight" : float(lines[9].split(": ")[1].strip()),
+                    "Sku": lines[10].split(": ")[1].strip(),
+                    "Discount": int(lines[11].split(": ")[1].strip()),
+                    "Rating" : float(lines[12].split(": ")[1].strip()),
+                    "Review" : lines[13].split(": ")[1].strip()
                 }
                 products.append(product_data)
             except IndexError:
@@ -76,7 +85,16 @@ class Admin(User):
                     f"Name: {product['Name']}\n"
                     f"Price: {product['Price']}\n"
                     f"Stock Quantity: {product['Stock Quantity']}\n"
-                    f"Category: {product['Category']}\n\n"
+                    f"Category: {product['Category']}\n"
+                    f"Description: {product['Description']}\n"
+                    f"Brand: {product['Brand']}\n"
+                    f"Color: {product['Color']}\n"
+                    f"Size: {product['Size']}\n"
+                    f"Weight: {product['Weight']}\n"
+                    f"SKU: {product['Sku']}\n"
+                    f"Discount: {product['Discount']}\n"
+                    f"Rating: {product['Rating']}\n"
+                    f"Review: {product['Review']}\n\n"
                 )
     def remove_product(self):
         print("REMOVE PRODUCT")
