@@ -444,8 +444,17 @@ def add_product(admin):
     price = float(input("Price: "))
     stock_quantity = int(input("Stock Quantity: "))
     category = input("Category: ")
+    description = input("Description (optional): ")
+    brand = input("Brand (optional): ")
+    color = input("Color (optional): ")
+    size = input("Size (optional): ")
+    weight = float(input("Weight (optional, in kg): ") or 0.0)
+    sku = input("SKU (optional): ")
+    discount = int(input("Discount (optional, %): ") or 0)
+    rating = float(input("Rating (optional, out of 5): ") or 0.0)
+    review = input("Review: ")
     
-    admin.add_product(product_id, name, price, stock_quantity, category)
+    admin.add_product(product_id, name, price, stock_quantity, category, description, brand, color, size, weight, sku, discount, rating, review)
     print("\nProduct added successfully!\n")
 
 def update_stock(product):
@@ -471,9 +480,18 @@ def update_stock(product):
             price = float(lines[2].split(": ")[1].strip())
             stock_quantity = int(lines[3].split(": ")[1].strip())
             category = lines[4].split(": ")[1].strip()
+            description = lines[5].split(": ")[1].strip()
+            brand = lines[6].split(": ")[1].strip()
+            color = lines[7].split(": ")[1].strip()
+            size = lines[8].split(": ")[1].strip()
+            weight = float(lines[9].split(": ")[1].strip())
+            sku = lines[10].split(": ")[1].strip()
+            discount = int(lines[11].split(": ")[1].strip())
+            rating = float(lines[12].split(": ")[1].strip())
+            review = lines[13].split(": ")[1].strip()
             
             # Create a Product instance
-            product = Product(product_id, name, price, stock_quantity, category)
+            product = Product(product_id, name, price, stock_quantity, category, description, brand, color, size, weight, sku, discount, rating, review)
             
             # Update stock quantity using Product's update_stock method
             product.update_stock(new_stock_quantity)
@@ -484,7 +502,16 @@ def update_stock(product):
                                     f"Name: {product.name}\n"
                                     f"Price: {product.price}\n"
                                     f"Stock Quantity: {product.stock_quantity}\n"
-                                    f"Category: {product.category}\n")
+                                    f"Category: {product.category}\n"
+                                    f"Description: {product.description}\n"
+                                    f"Brand: {product.brand}\n"
+                                    f"Color: {product.color}\n"
+                                    f"Size: {product.size}\n"
+                                    f"Weight: {product.weight}\n"
+                                    f"SKU: {product.sku}\n"
+                                    f"Discount: {product.discount}\n"
+                                    f"Rating: {product.rating}\n"
+                                    f"Review: {product.review}\n")
         else:
             # Keep non-matching products as-is
             updated_products.append(entry)
